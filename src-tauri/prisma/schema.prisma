@@ -1,0 +1,54 @@
+datasource db {
+    provider = "sqlite"
+    url      = "file:../loadsamoney.db"
+}
+
+generator client {
+    provider    = "cargo prisma"
+    output      = "../src/db.rs"
+    module_path = "crate::db"
+}
+
+model User {
+    id        String   @id @default(uuid())
+    name      String
+    password  String // For encryption eventually
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+}
+
+model Quote {
+    id           String        @id @default(uuid())
+    name         String
+    price        Decimal
+    high         Decimal
+    low          Decimal
+    close        Decimal
+    transactions Transaction[]
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @default(now())
+}
+
+model Transaction {
+    id        String   @id @default(uuid())
+    type      String
+    amount    Decimal?
+    price     Decimal?
+    total     Decimal
+    quote     Quote?   @relation(fields: [quoteId], references: [id])
+    quoteId   String
+    account   Account  @relation(fields: [accountId], references: [id])
+    accountId String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+}
+
+model Account {
+    id        String        @id @default(uuid())
+    type      String
+    name      String
+    amount    Decimal
+    history   Transaction[]
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @default(now())
+}
