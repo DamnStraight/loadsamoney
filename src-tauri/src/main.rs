@@ -15,7 +15,7 @@ type DbState<'a> = State<'a, Arc<PrismaClient>>;
 #[tokio::main]
 async fn main() {
   let _db = PrismaClient::_builder().build().await.unwrap();
-  let _ = ts::export(collect_types![get_account], "../app/bindings.ts");
+  let _ = ts::export(collect_types![get_account], "../types/bindings.ts");
 
   tauri::Builder::default()
     .run(tauri::generate_context!())
