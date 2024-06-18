@@ -7,7 +7,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className={cn("bg-black")}>
+    <div className={cn("bg-red-500 ")}>
         {children}
     </div>
   );
