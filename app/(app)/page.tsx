@@ -1,35 +1,31 @@
-'use client';
+'use client'
 
-import { MainNav } from "@/components/ui/main-nav"
-import { DatePicker } from "@/components/ui/date-picker";
 import { useEffect } from "react";
 import { getAllUsers } from "@/types/bindings";
+import { useRouter } from 'next/navigation';
 
-export default function Home() {
+export default function Dashboard() {
+  const router = useRouter();
+
   useEffect(() => {
-    async function onInit() {
+    // TODO: This should be moved to middleware once we have users set up:
+    https://nextjs.org/docs/app/building-your-application/routing/redirecting
+    async function fetchUsers() {
       try {
-        const users = await getAllUsers()
-        console.log(`Users = ${users}`);
+        const users = await getAllUsers();
+
+        if (users.length == 0) {
+          router.push("/users/create");
+        }
       } catch (e) {
         console.log(e);
       }
     }
 
-    onInit();
+    fetchUsers();
   }, []);
 
   return (
-    <main>
-      <div className="flex flex-row h-screen">
-        <div className="flex border-r w-48">
-          <MainNav />
-        </div>
-        <div className="flex justify-between px-6 w-full py-6">
-            <h2 className="text-3xl font-bold tracking-tight">Title?</h2>
-            <DatePicker />
-        </div>
-      </div>
-    </main>
-  );
+    <></>
+  )
 }
