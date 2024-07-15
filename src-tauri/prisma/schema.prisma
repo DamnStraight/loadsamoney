@@ -47,7 +47,7 @@ model Account {
     id        String        @id @default(uuid())
     type      String
     name      String
-    amount    Decimal
+    amount    Float
     history   Transaction[]
     createdAt DateTime      @default(now())
     updatedAt DateTime      @default(now())
